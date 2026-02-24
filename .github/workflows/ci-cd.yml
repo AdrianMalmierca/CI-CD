@@ -35,4 +35,4 @@ jobs:
       - name: Deploy to Railway
         uses: railwayapp/railway-action@v2
         with:
-          railwayToken: ${{ secrets.RAILWAY_TOKEN }}
+          railwayToken: ${{ secrets.RAILWAY_TOKEN }} 
