@@ -3,7 +3,7 @@ const router = express.Router();
 
 // GET /
 router.get("/", (req, res) => {
-  res.json({ message: "Hello World from CI/CD demo!" });
+  res.json({ message: "Hello World I'm Adrián Martín Malmierca!" });
 });
 
 // GET /status
