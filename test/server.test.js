@@ -31,4 +31,22 @@ describe("API Endpoints", () => {
     expect(res.statusCode).toBe(200);
     expect(res.body.length).toBe(2);
   });
+
+  it("GET /users/:id returns user if exists", async () => {
+    const res = await request(app).get("/users/1");
+    expect(res.statusCode).toBe(200);
+    expect(res.body.name).toBe("Adrián");
+  });
+
+  it("GET /users/:id returns 404 if user does not exist", async () => {
+    const res = await request(app).get("/users/999");
+    expect(res.statusCode).toBe(404);
+    expect(res.body.error).toBe("User not found");
+  });
+
+  it("GET /error returns 500", async () => {
+    const res = await request(app).get("/error");
+    expect(res.statusCode).toBe(500);
+    expect(res.body.error).toBe("This is a test error");
+  });
 });

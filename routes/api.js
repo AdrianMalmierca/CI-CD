@@ -19,16 +19,22 @@ app.get("/echo", (req, res) => {
   res.json({ msg });
 });
 
-// JSON “base de datos” simulada
+//db simulated
 const users = [
   { id: 1, name: "Adrián" },
-  { id: 2, name: "Alice" }
+  { id: 2, name: "Paco" }
 ];
-app.get("/users", (req, res) => res.json(users));
 
-// Solo iniciar servidor si no estamos en test
+app.get("/users/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const user = users.find(u => u.id === id);
+  if (!user) return res.status(404).json({ error: "User not found" });
+  res.json(user);
+});
+
+//run server only if not in test environment
 if (process.env.NODE_ENV !== "test") {
   app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 }
 
-module.exports = app; // exportar para tests
+module.exports = app; //export app for testing
