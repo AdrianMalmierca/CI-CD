@@ -26,17 +26,10 @@ jobs:
           NODE_ENV: test
         run: npm test
 
-  deploy:
-    needs: build-and-test
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+      - name: Install Railway CLI
+        run: npm install -g @railway/cli
 
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Deploy to Railway
-        uses: railwayapp/cli-action@v2
-        with:
-          railwayToken: ${{ secrets.RAILWAY_TOKEN }}
-          projectId: ${{ secrets.RAILWAY_PROJECT_ID }}
-          environment: "production"
+      - name: Deploy via Railway CLI
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: railway up
