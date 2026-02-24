@@ -228,7 +228,6 @@ This project demonstrates:
 It is intentionally simple in domain complexity but strong in engineering structure.
 
 # Author
-
 Adrián Martín Malmierca
 
 Computer Engineer & Mobile Applications Master's Student
