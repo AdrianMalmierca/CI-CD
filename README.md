@@ -9,52 +9,40 @@ A production-structured **Express.js REST API** demonstrating:
 
 This project is intentionally simple in business logic but engineered with professional backend standards.
 
-# Tech Stack
-
+## Tech Stack
 * **Node.js 20**
 * **Express.js**
 * **Jest** (testing framework)
 * **Supertest** (HTTP assertions)
 * **GitHub Actions** (CI)
 
----
-
-# 🏗 Architecture Overview
-
+## Architecture Overview
 The application follows a **modular layered structure**:
 
 ```
 .
-├── server.js              # Application bootstrap
+├── server.js              #Application bootstrap
 ├── routes/
-│   └── api.js             # Route definitions
+│   └── api.js             #Route definitions
 ├── test/
-│   └── server.test.js     # Integration tests
+│   └── server.test.js     #Integration tests
 └── .github/workflows/
-    └── ci-cd.yml          # CI pipeline
+    └── ci-cd.yml          #CI pipeline
 ```
-
 ### Architectural Principles Applied
-
 * **Separation of Concerns**
-
   * `server.js` handles app initialization
   * `routes/api.js` handles route definitions
   * Tests are isolated in `/test`
 
 * **Environment-based behavior**
-
   * `NODE_ENV=test` prevents the server from listening during tests
   * Greeting message configurable via `process.env`
 
 * **Exported app instance**
-
   * Enables clean integration testing without starting a live server
 
----
-
-# ⚙️ Server Bootstrapping
-
+## Server Bootstrapping
 `server.js` initializes the Express application:
 
 ```js
@@ -68,7 +56,7 @@ const GREETING = process.env.GREETING || "Hello World I'm Adrián Martín Malmie
 
 ### Key Design Decisions
 
-### 1️⃣ Conditional Server Start
+#### 1. Conditional Server Start
 
 ```js
 if (process.env.NODE_ENV !== "test") {
@@ -78,7 +66,7 @@ if (process.env.NODE_ENV !== "test") {
 
 This prevents port binding during automated tests — a common professional backend pattern.
 
-### 2️⃣ Basic Logging Abstraction
+### 2. Basic Logging Abstraction
 
 ```js
 function logInfo(msg) { 
@@ -91,140 +79,24 @@ function logError(msg) {
 ```
 
 Although simple, this abstracts logging logic and prepares the project for future integration with:
-
 * Winston
 * Pino
 * Datadog
 * Cloud logging providers
 
----
-
-# 🌐 API Endpoints
-
+## API Endpoints
 All routes are defined in `routes/api.js`.
 
----
+| Method | Endpoint          | Description                               | Response Example                                                 | Status Codes | Notes                                                                       |
+| ------ | ----------------- | ----------------------------------------- | ---------------------------------------------------------------- | ------------ | --------------------------------------------------------------------------- |
+| GET    | `/`               | Returns a greeting message                | `{ "message": "Hello World I'm Adrián Martín Malmierca!" }`      | 200          | Configurable via environment variable                                       |
+| GET    | `/status`         | Health-check endpoint                     | `{ "status": "ok", "uptime": 123.456 }`                          | 200          | Used for monitoring, orchestration health checks, and deployment validation |
+| GET    | `/random`         | Returns a random integer between 0 and 99 | `{ "value": 42 }`                                                | 200          | Demonstrates dynamic response generation                                    |
+| GET    | `/echo?msg=value` | Echoes a query parameter                  | `{ "msg": "hi" }`                                                | 200          | Example: `/echo?msg=hi`                                                     |
+| GET    | `/users`          | Returns all users                         | `[ { "id": 1, "name": "Adrián" }, { "id": 2, "name": "Paco" } ]` | 200          | Uses in-memory dataset                                                      |
+| GET    | `/users/:id`      | Returns a single user by ID               | `{ "id": 1, "name": "Adrián" }`                                  | 200, 404     | Returns `{ "error": "User not found" }` if ID does not exist                |
+| GET    | `/error`          | Simulates a server error (testing only)   | `{ "error": "This is a test error" }`                            | 500          | Used to validate error handling and CI reliability                          |
 
-## `GET /`
-
-Returns a greeting message.
-
-```json
-{
-  "message": "Hello World I'm Adrián Martín Malmierca!"
-}
-```
-
----
-
-## `GET /status`
-
-Health-check endpoint.
-
-```json
-{
-  "status": "ok",
-  "uptime": 123.456
-}
-```
-
-**Purpose:**
-Used for:
-
-* Monitoring
-* Container orchestration health checks
-* Deployment validation
-
----
-
-## `GET /random`
-
-Returns a random integer between 0 and 99.
-
-```json
-{
-  "value": 42
-}
-```
-
----
-
-## `GET /echo?msg=value`
-
-Echo endpoint demonstrating query parameter handling.
-
-Example:
-
-```
-/echo?msg=hi
-```
-
-Response:
-
-```json
-{
-  "msg": "hi"
-}
-```
-
----
-
-## Simulated Data Layer
-
-A simple in-memory dataset:
-
-```js
-const users = [
-  { id: 1, name: "Adrián" },
-  { id: 2, name: "Paco" }
-];
-```
-
-This mimics a minimal data persistence layer.
-
----
-
-## `GET /users`
-
-Returns all users.
-
----
-
-## `GET /users/:id`
-
-Returns a single user by ID.
-
-If user does not exist:
-
-```json
-{
-  "error": "User not found"
-}
-```
-
-Status: `404`
-
----
-
-## `GET /error`
-
-Test-only endpoint to simulate server failure.
-
-Returns:
-
-```json
-{
-  "error": "This is a test error"
-}
-```
-
-Status: `500`
-
-Purpose:
-
-* Validate error handling
-* Test CI reliability
-* Demonstrate HTTP error codes
 
 ---
 
@@ -389,33 +261,18 @@ To evolve this into a more production-ready backend:
 * Add rate limiting
 * Add authentication (JWT)
 
----
-
-# 🎯 Project Purpose
-
+# Project Purpose
 This project demonstrates:
-
-* Backend fundamentals
-* Testing discipline
-* CI/CD understanding
-* Clean architectural thinking
-* Production-aware design
+1. Backend fundamentals
+2. Testing discipline
+3. CI/CD understanding
+4. Clean architectural thinking
+5. Production-aware design
 
 It is intentionally simple in domain complexity but strong in engineering structure.
 
----
-
-# 👨‍💻 Author
+# Author
 
 Adrián Martín Malmierca
 
----
-
-If you’d like, I can now:
-
-* Upgrade this README to “portfolio-level” (with badges, coverage, deployment section, diagrams)
-* Refactor the API to a more enterprise-style layered architecture
-* Convert it into TypeScript
-* Add Docker + production logging
-
-Tell me which direction you want to take.
+Computer Engineer & Mobile Applications Master's Student
