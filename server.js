@@ -1,27 +1,17 @@
 const express = require("express");
 const app = express();
+const apiRoutes = require("./routes/api");
 
 const PORT = process.env.PORT || 3000;
 const GREETING = process.env.GREETING || "Hello World I'm Adrián Martín Malmierca";
 
-function logInfo(msg) {
-  console.log(`[INFO ${new Date().toISOString()}] ${msg}`);
-}
+//logging
+function logInfo(msg) { console.log(`[INFO ${new Date().toISOString()}] ${msg}`); }
+function logError(msg) { console.error(`[ERROR ${new Date().toISOString()}] ${msg}`); }
 
-function logError(msg) {
-  console.error(`[ERROR ${new Date().toISOString()}] ${msg}`);
-}
+app.use("/", apiRoutes);
 
-if (process.env.NODE_ENV !== "test") {
-  app.listen(PORT, () => logInfo(`Server running on port ${PORT}`));
-}
-
-//Endpoints
-app.get("/", (req, res) => {
-  const env = process.env.NODE_ENV || "development";
-  res.json({ message: GREETING, environment: env });
-});
-
+//error endpoint for testing
 app.get("/error", (req, res) => {
   try {
     throw new Error("This is a test error");
@@ -31,6 +21,9 @@ app.get("/error", (req, res) => {
   }
 });
 
-app.listen(PORT, () => console.log(`[${new Date().toISOString()}] Server running on port ${PORT}`));
+//only run server if not in test environment
+if (process.env.NODE_ENV !== "test") {
+  app.listen(PORT, () => logInfo(`Server running on port ${PORT}`));
+}
 
 module.exports = app;

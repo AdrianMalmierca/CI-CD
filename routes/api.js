@@ -1,40 +1,42 @@
 const express = require("express");
-const app = express();
-const PORT = process.env.PORT || 3000;
+const router = express.Router();
 
-app.get("/", (req, res) => {
+// GET /
+router.get("/", (req, res) => {
   res.json({ message: "Hello World from CI/CD demo!" });
 });
 
-app.get("/status", (req, res) => {
+// GET /status
+router.get("/status", (req, res) => {
   res.json({ status: "ok", uptime: process.uptime() });
 });
 
-app.get("/random", (req, res) => {
+// GET /random
+router.get("/random", (req, res) => {
   res.json({ value: Math.floor(Math.random() * 100) });
 });
 
-app.get("/echo", (req, res) => {
+// GET /echo
+router.get("/echo", (req, res) => {
   const msg = req.query.msg || "nothing";
   res.json({ msg });
 });
 
-//db simulated
+// Simulated DB
 const users = [
   { id: 1, name: "Adrián" },
   { id: 2, name: "Paco" }
 ];
 
-app.get("/users/:id", (req, res) => {
+// GET /users
+router.get("/users", (req, res) => res.json(users));
+
+// GET /users/:id
+router.get("/users/:id", (req, res) => {
   const id = parseInt(req.params.id);
   const user = users.find(u => u.id === id);
   if (!user) return res.status(404).json({ error: "User not found" });
   res.json(user);
 });
 
-//run server only if not in test environment
-if (process.env.NODE_ENV !== "test") {
-  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-}
-
-module.exports = app; //export app for testing
+module.exports = router;
