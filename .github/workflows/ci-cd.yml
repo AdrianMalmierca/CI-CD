@@ -1,4 +1,4 @@
-name: CI/CD Node.js
+name: CI Node.js
 
 on:
   push:
@@ -7,9 +7,8 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build-and-deploy:
+  test:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
 
@@ -25,11 +24,3 @@ jobs:
         env:
           NODE_ENV: test
         run: npm test
-
-      - name: Install Railway CLI
-        run: npm install -g @railway/cli
-
-      - name: Deploy via Railway CLI
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-        run: railway up --service chic-kindness
