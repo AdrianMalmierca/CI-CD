@@ -1,37 +1,37 @@
 const express = require("express");
 const router = express.Router();
 
-// GET /
+//GET /
 router.get("/", (req, res) => {
   res.json({ message: "Hello World I'm Adrián Martín Malmierca!" });
 });
 
-// GET /status
+//GET /status
 router.get("/status", (req, res) => {
   res.json({ status: "ok", uptime: process.uptime() });
 });
 
-// GET /random
+//GET /random
 router.get("/random", (req, res) => {
   res.json({ value: Math.floor(Math.random() * 100) });
 });
 
-// GET /echo
+//GET /echo
 router.get("/echo", (req, res) => {
   const msg = req.query.msg || "nothing";
   res.json({ msg });
 });
 
-// Simulated DB
+//Simulated DB
 const users = [
   { id: 1, name: "Adrián" },
   { id: 2, name: "Paco" }
 ];
 
-// GET /users
+//GET /users
 router.get("/users", (req, res) => res.json(users));
 
-// GET /users/:id
+//GET /users/:id
 router.get("/users/:id", (req, res) => {
   const id = parseInt(req.params.id);
   const user = users.find(u => u.id === id);
