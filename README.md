@@ -18,7 +18,6 @@ This project is intentionally simple in business logic but engineered with profe
 
 ## Architecture Overview
 The application follows a **modular layered structure**:
-
 ```
 .
 ├── server.js              #Application bootstrap
@@ -29,6 +28,7 @@ The application follows a **modular layered structure**:
 └── .github/workflows/
     └── ci-cd.yml          #CI pipeline
 ```
+
 ### Architectural Principles Applied
 * **Separation of Concerns**
   * `server.js` handles app initialization
@@ -44,7 +44,6 @@ The application follows a **modular layered structure**:
 
 ## Server Bootstrapping
 `server.js` initializes the Express application:
-
 ```js
 const express = require("express");
 const app = express();
@@ -57,7 +56,6 @@ const GREETING = process.env.GREETING || "Hello World I'm Adrián Martín Malmie
 ### Key Design Decisions
 
 #### 1. Conditional Server Start
-
 ```js
 if (process.env.NODE_ENV !== "test") {
   app.listen(PORT, () => logInfo(`Server running on port ${PORT}`));
@@ -67,7 +65,6 @@ if (process.env.NODE_ENV !== "test") {
 This prevents port binding during automated tests — a common professional backend pattern.
 
 ### 2. Basic Logging Abstraction
-
 ```js
 function logInfo(msg) { 
   console.log(`[INFO ${new Date().toISOString()}] ${msg}`); 
@@ -97,18 +94,12 @@ All routes are defined in `routes/api.js`.
 | GET    | `/users/:id`      | Returns a single user by ID               | `{ "id": 1, "name": "Adrián" }`                                  | 200, 404     | Returns `{ "error": "User not found" }` if ID does not exist                |
 | GET    | `/error`          | Simulates a server error (testing only)   | `{ "error": "This is a test error" }`                            | 500          | Used to validate error handling and CI reliability                          |
 
-
----
-
-# 🧪 Testing Strategy
-
+## Testing Strategy
 Testing is implemented using:
-
-* **Jest**
-* **Supertest**
+- **Jest**
+- **Supertest**
 
 Example test:
-
 ```js
 const res = await request(app).get("/");
 expect(res.statusCode).toBe(200);
@@ -116,38 +107,28 @@ expect(res.body.message).toBe("Hello World I'm Adrián Martín Malmierca!");
 ```
 
 ### What is being tested?
-
-* HTTP status codes
-* Response structure
-* Response data
-* Error handling
-* Route correctness
+1. HTTP status codes
+2. Response structure
+3. Response data
+4. Error handling
+5. Route correctness
 
 ### Why Integration Tests Instead of Unit Tests?
-
 This project focuses on validating:
-
-* Express routing
-* Middleware chain
-* Full request/response lifecycle
+- Express routing
+- Middleware chain
+- Full request/response lifecycle
 
 This provides stronger guarantees than isolated unit tests.
 
----
-
-# 🔄 Continuous Integration
-
+## Continuous Integration
 CI is implemented using **GitHub Actions**.
-
 File: `.github/workflows/ci-cd.yml`
-
 Pipeline triggers on:
-
-* Push to `main`
-* Pull requests to `main`
+- Push to `main`
+- Pull requests to `main`
 
 ### CI Steps
-
 1. Checkout repository
 2. Setup Node.js 20
 3. Install dependencies
@@ -161,48 +142,34 @@ Pipeline triggers on:
 ```
 
 ### Why set `NODE_ENV=test`?
-
 Prevents the server from binding to a port and ensures a clean test environment.
 
----
-
-# ▶️ Running Locally
+## Running Locally
 
 ### Install dependencies
-
 ```bash
 npm install
 ```
 
 ### Run server
-
 ```bash
 npm start
 ```
 
 ### Run tests
-
 ```bash
 npm test
 ```
 
----
+## Design Decisions Explained
 
-# 🧠 Design Decisions Explained
+### 1. Modularity Over Monolith
+Routes are separated into their own module instead of being defined in `server.js`. This:
+- Improves maintainability
+- Scales better for larger APIs
+- Keeps bootstrap logic clean
 
-### 1️⃣ Modularity Over Monolith
-
-Routes are separated into their own module instead of being defined in `server.js`.
-
-This:
-
-* Improves maintainability
-* Scales better for larger APIs
-* Keeps bootstrap logic clean
-
----
-
-### 2️⃣ Environment Configuration
+### 2. Environment Configuration
 
 ```js
 process.env.PORT
@@ -218,48 +185,37 @@ Using environment variables:
 
 ---
 
-### 3️⃣ Exporting the Express App
-
+### 3. Exporting the Express App
 ```js
 module.exports = app;
 ```
 
 This allows:
+- Direct injection into Supertest
+- Testing without opening a network port
+- Faster CI execution
 
-* Direct injection into Supertest
-* Testing without opening a network port
-* Faster CI execution
-
----
-
-### 4️⃣ Explicit HTTP Status Codes
-
+### 4. Explicit HTTP Status Codes
 Every endpoint clearly defines:
-
-* 200 OK
-* 404 Not Found
-* 500 Internal Server Error
+- 200 OK
+- 404 Not Found
+- 500 Internal Server Error
 
 This demonstrates understanding of REST semantics.
 
----
-
-# 📈 Future Improvements
-
+# Future Improvements
 To evolve this into a more production-ready backend:
-
-* Add centralized error middleware
-* Introduce a service layer
-* Replace in-memory data with:
-
-  * PostgreSQL
-  * MongoDB
-* Add request validation (Joi / Zod)
-* Add logging library (Winston / Pino)
-* Add Docker support
-* Add API documentation (Swagger / OpenAPI)
-* Add rate limiting
-* Add authentication (JWT)
+1. Add centralized error middleware
+2. Introduce a service layer
+3. Replace in-memory data with:
+  - PostgreSQL
+  - MongoDB
+4. Add request validation (Joi / Zod)
+5. Add logging library (Winston / Pino)
+6. Add Docker support
+7. Add API documentation (Swagger / OpenAPI)
+8. Add rate limiting
+9. Add authentication (JWT)
 
 # Project Purpose
 This project demonstrates:
