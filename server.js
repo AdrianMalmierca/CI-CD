@@ -13,4 +13,4 @@ if (process.env.NODE_ENV !== "test") {
   });
 }
 
-module.exports = app; // exportar para tests
+module.exports = app; // exportar para tests// trigger railway build
