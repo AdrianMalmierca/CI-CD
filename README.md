@@ -9,7 +9,7 @@ A production-structured **Express.js REST API** demonstrating:
 
 This project is intentionally simple in business logic but engineered with professional backend standards.
 
-Is located in [Railway]("https://ci-testing-production.up.railway.app/")
+Is located in [**Railway**]("https://ci-testing-production.up.railway.app/")
 
 ## Tech Stack
 * **Node.js 20**
