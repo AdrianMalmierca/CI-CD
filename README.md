@@ -1,4 +1,4 @@
-# Node.js CI/CD Demo API
+# Node.js CI/testinf Demo API
 A production-structured **Express.js REST API** demonstrating:
 1. Modular architecture
 2. Environment-based configuration
@@ -26,7 +26,7 @@ The application follows a **modular layered structure**:
 ├── test/
 │   └── server.test.js     #Integration tests
 └── .github/workflows/
-    └── ci-cd.yml          #CI pipeline
+    └── ci.yml          #CI pipeline
 ```
 
 ### Architectural Principles Applied
@@ -123,7 +123,7 @@ This provides stronger guarantees than isolated unit tests.
 
 ## Continuous Integration
 CI is implemented using **GitHub Actions**.
-File: `.github/workflows/ci-cd.yml`
+File: `.github/workflows/ci.yml`
 Pipeline triggers on:
 - Push to `main`
 - Pull requests to `main`
@@ -221,7 +221,7 @@ To evolve this into a more production-ready backend:
 This project demonstrates:
 1. Backend fundamentals
 2. Testing discipline
-3. CI/CD understanding
+3. CI/testing understanding
 4. Clean architectural thinking
 5. Production-aware design
 
